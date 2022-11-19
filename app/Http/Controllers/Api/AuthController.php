@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AbstractController;
 use App\Http\Requests\Api\LoginUserRequest;
 use App\Http\Requests\Api\StoreUserRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
-class AuthController extends Controller
+class AuthController extends AbstractController
 {
     /**
      * @var UserService $service
@@ -28,20 +28,6 @@ class AuthController extends Controller
     public function __construct(UserRepositoryInterface $repository)
     {
         $this->service = new UserService($repository);
-    }
-    
-    /**
-     * to return on error case
-     *
-     * @param  \Throwable $th
-     * @return JsonResponse
-     */
-    protected function onError(\Throwable $th): JsonResponse
-    {
-        return response()->json([
-            'status' => false,
-            'message' => $th->getMessage(),
-        ], 500);
     }
 
     /**
@@ -60,7 +46,7 @@ class AuthController extends Controller
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
             ]))->setStatusCode(201);
         } catch (\Throwable $th) {
-            return $this->onError($th);
+            return $this->simpleJsonResponse($th->getMessage(), false, 500);
         }
     }
 
@@ -87,7 +73,7 @@ class AuthController extends Controller
             ]))->setStatusCode(200);
 
         } catch (\Throwable $th) {
-            return $this->onError($th);
+            return $this->simpleJsonResponse($th->getMessage(), false, 500);
         }
     }
     
@@ -108,7 +94,7 @@ class AuthController extends Controller
                 'message' => 'User Logged Out Successfully',
             ]))->setStatusCode(200);
         } catch (\Throwable $th) {
-            return $this->onError($th);
+            return $this->simpleJsonResponse($th->getMessage(), false, 500);
         }
     }
 }

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\AbstractController;
 use App\Http\Requests\Api\StorePlayerRequest;
 use App\Http\Requests\Api\UpdatePlayerRequest;
+use App\Http\Resources\PlayerResource;
 use App\Models\Player;
 use App\Repositories\Interfaces\PlayerRepositoryInterface;
 use App\Services\PlayerService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class PlayerController extends Controller
+class PlayerController extends AbstractController
 {
     /**
      * @var PlayerService $service
@@ -31,76 +33,76 @@ class PlayerController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        return Player::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $players = $this->service->allPaginatedAndFiltered($request->all());
+        return PlayerResource::collection($players)
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePlayerRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  StorePlayerRequest $request
+     * @return JsonResponse
      */
-    public function store(StorePlayerRequest $request)
+    public function store(StorePlayerRequest $request): JsonResponse
     {
-        //
+        $player = $this->service->store($request->validated());
+        return PlayerResource::make($player)
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Player  $player
-     * @return \Illuminate\Http\Response
+     * @param  Player  $player
+     * @return JsonResponse
      */
-    public function show(Player $player)
+    public function show(Player $player): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Player  $Player
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Player $player)
-    {
-        //
+        return PlayerResource::make($player)
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePlayerRequest  $request
-     * @param  \App\Models\Player  $player
-     * @return \Illuminate\Http\Response
+     * @param  UpdatePlayerRequest  $request
+     * @param  Player  $player
+     * @return JsonResponse
      */
-    public function update(UpdatePlayerRequest $request, Player $player)
+    public function update(UpdatePlayerRequest $request, Player $player):JsonResponse
     {
-        //
+        $player = $this->service->update($player, $request->validated());
+        return PlayerResource::make($player)
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Player  $player
-     * @return \Illuminate\Http\Response
+     * @param  Player  $player
+     * @return JsonResponse
      */
-    public function destroy(Player $player)
+    public function destroy(Player $player): JsonResponse
     {
-        //
+        if ($this->service->destroy($player)) {
+            $message = 'the requested resource cannot be deleted';
+            $status = false;
+            $code = 409;
+            return $this->simpleJsonResponse($message, $status, $code);
+        }
+        $message = 'the requested resource has been deleted';
+        $status = true;
+        $code = 204;
+        return $this->simpleJsonResponse($message, $status, $code);
     }
 }

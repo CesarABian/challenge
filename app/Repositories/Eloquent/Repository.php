@@ -113,11 +113,15 @@ class Repository implements RepositoryInterface
      */
     public function update(mixed $id, array $attributes): Model
     {
-        $model = $this->model
-            ->newQuery()
-            ->find($id);
-        $model->update($attributes);
-        return $model;
+        if (!$id instanceof Model) {
+            $model = $this->model
+                ->newQuery()
+                ->find($id);
+            $model->update($attributes);
+            return $model;
+        }
+        $id->update($attributes);
+        return $id;
     }
     
     /**
