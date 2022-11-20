@@ -16,5 +16,6 @@ class Player extends Model
         'force',
         'velocity',
         'reaction',
+        'genre',
     ];
 }
