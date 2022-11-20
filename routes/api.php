@@ -15,8 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/auth/register', [AuthController::class, 'createUser']);
-Route::post('/auth/login', [AuthController::class, 'loginUser']);
-Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
+Route::controller(AuthController::class)
+    ->prefix('auth')
+    ->group(function () {
+        Route::post('/register', 'createUser');
+        Route::post('/login', 'loginUser');
+        Route::post('/logout', 'logoutUser');
+});
 
-Route::apiResource('player', PlayerController::class)->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')
+    ->group(function () {
+        Route::apiResource('player', PlayerController::class);
+        Route::apiResource('tournament', TournamentController::class);
+});

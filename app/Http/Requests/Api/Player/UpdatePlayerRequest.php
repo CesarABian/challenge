@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Requests\Api\Player;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Api\ApiFormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdatePlayerRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
-use App\Http\Requests\Api\StorePlayerRequest;
-use App\Http\Requests\Api\UpdatePlayerRequest;
+use App\Http\Requests\Api\Player\StorePlayerRequest;
+use App\Http\Requests\Api\Player\UpdatePlayerRequest;
 use App\Http\Resources\PlayerResource;
 use App\Models\Player;
 use App\Repositories\Interfaces\PlayerRepositoryInterface;

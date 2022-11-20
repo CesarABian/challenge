@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\AbstractController;
-use App\Http\Requests\Api\LoginUserRequest;
-use App\Http\Requests\Api\StoreUserRequest;
+use App\Http\Requests\Api\Auth\LogoutUserRequest;
+use App\Http\Requests\Api\Auth\LoginUserRequest;
+use App\Http\Requests\Api\Auth\StoreUserRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -83,7 +83,7 @@ class AuthController extends AbstractController
      * @param  mixed $request
      * @return JsonResponse
      */
-    public function logoutUser(Request $request): JsonResponse
+    public function logoutUser(LogoutUserRequest $request): JsonResponse
     {
         try {
             $accessToken = $request->bearerToken();

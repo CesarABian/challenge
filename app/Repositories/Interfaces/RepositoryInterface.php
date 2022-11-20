@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -70,4 +71,14 @@ interface RepositoryInterface
      * @return 
      */
     public function destroy(mixed $id);
+
+    /**
+     * returns all models paginated and filtered
+     *
+     * @param  array $config
+     * @param  array $columns
+     * @param  array $relations
+     * @return LengthAwarePaginator
+     */
+    public function allPaginatedAndFiltered(array $config, array $columns, array $relations): LengthAwarePaginator;
 }
