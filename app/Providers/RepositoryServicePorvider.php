@@ -19,6 +19,8 @@ class RepositoryServicePorvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PlayerRepositoryInterface::class, PlayerRepository::class);
+        $this->app->bind(GameRepositoryInterface::class, GameRepository::class);
+        $this->app->bind(TournamentRepositoryInterface::class, TournamentRepository::class);
     }
 
     /**
