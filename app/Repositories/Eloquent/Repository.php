@@ -6,7 +6,7 @@ use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-
+use Illuminate\Database\Eloquent\Builder;
 
 class Repository implements RepositoryInterface
 {
