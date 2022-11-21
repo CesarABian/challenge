@@ -11,7 +11,7 @@ class Tournament extends Model
     use HasFactory;
 
     /**
-     * @var array $fillable
+     * @var $fillable
      */
     protected $fillable = [
         'name',

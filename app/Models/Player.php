@@ -10,9 +10,9 @@ class Player extends Model
     use HasFactory;
 
     /**
-     * @var array $fillable
+     * @var $fillable
      */
-    protected array $fillable = [
+    protected $fillable = [
         'name',
         'last_name',
         'ability',

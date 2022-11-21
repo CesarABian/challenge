@@ -11,9 +11,9 @@ class Game extends Model
     use HasFactory;
 
     /**
-     * @var array $fillable
+     * @var $fillable
      */
-    protected array $fillable = [
+    protected $fillable = [
         'player_a_id',
         'player_b_id',
         'winner_id',
