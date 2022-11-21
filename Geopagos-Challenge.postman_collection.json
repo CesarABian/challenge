@@ -1,0 +1,604 @@
+{
+	"info": {
+		"_postman_id": "fc79811e-e05a-45a3-b43c-bbe3f2aa2eeb",
+		"name": "Geopagos-Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "2|OqruJp2jLw9CIxoshYU6dNHGYP5fTCOy0AxjavNZ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/api/player",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "All Players",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|brLBvgPMJaYtZhkjemapVYyDP3Lnkeuk9vrzjyWY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/player",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"player"
+							],
+							"query": [
+								{
+									"key": "perPage",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filters[]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderDirection",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Store Player",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|RSZTTNNZ9r2V8es6gxAgFYP395MpnEEjjKFB4oQv",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "last_name",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "ability",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "force",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "velocity",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "reaction",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "genre",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/player",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Player",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|brLBvgPMJaYtZhkjemapVYyDP3Lnkeuk9vrzjyWY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{base_url}}/api/player/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"player",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Player",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|GOnMqNMmjXUcoAHL9ii5Y7B5TPL1x4itZ6a24OmY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/api/player/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"player",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "All Games",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|brLBvgPMJaYtZhkjemapVYyDP3Lnkeuk9vrzjyWY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/game",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game"
+							],
+							"query": [
+								{
+									"key": "perPage",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filters[]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderDirection",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "3|Pz4HK9jKL3tWPw1mSF0D9Ku1HZHHaT0vG8LxjGtH",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/game/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Game",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|GOnMqNMmjXUcoAHL9ii5Y7B5TPL1x4itZ6a24OmY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/api/game/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"game",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tournament",
+			"item": [
+				{
+					"name": "All Tournaments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|brLBvgPMJaYtZhkjemapVYyDP3Lnkeuk9vrzjyWY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tournament",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tournament"
+							],
+							"query": [
+								{
+									"key": "perPage",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filters[]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderDirection",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Start Tournament",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|brLBvgPMJaYtZhkjemapVYyDP3Lnkeuk9vrzjyWY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tournament/start",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tournament",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy Tournament",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "5|GOnMqNMmjXUcoAHL9ii5Y7B5TPL1x4itZ6a24OmY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tournament/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tournament",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
