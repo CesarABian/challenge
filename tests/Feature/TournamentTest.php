@@ -4,9 +4,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class TournamentTest extends TestCase
+class TournamentTest extends AbstractApiTest
 {
     /**
      * A basic feature test example.

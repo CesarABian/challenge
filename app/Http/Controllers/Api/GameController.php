@@ -94,14 +94,14 @@ class GameController extends AbstractController
     public function destroy(Game $game): JsonResponse
     {
         if ($this->service->destroy($game)) {
-            $message = 'the requested resource cannot be deleted';
-            $status = false;
-            $code = 409;
+            $message = 'the requested resource has been deleted';
+            $status = true;
+            $code = 202;
             return $this->simpleJsonResponse($message, $status, $code);
         }
-        $message = 'the requested resource has been deleted';
-        $status = true;
-        $code = 204;
+        $message = 'the requested resource cannot be deleted';
+        $status = false;
+        $code = 409;
         return $this->simpleJsonResponse($message, $status, $code);
     }
 }

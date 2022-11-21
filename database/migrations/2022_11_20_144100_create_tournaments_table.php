@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->enum('genre', ['m', 'f']);
+            $table->foreignId('winner_id')
+                ->constrained('players')
+                ->nullable();
             $table->timestamps();
         });
     }

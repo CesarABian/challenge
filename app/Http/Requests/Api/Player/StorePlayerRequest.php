@@ -24,7 +24,46 @@ class StorePlayerRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'last_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'ability' => [
+                'required',
+                'int',
+                'min:0',
+                'max:100',
+            ],
+            'force' => [
+                'required',
+                'int',
+                'min:0',
+                'max:100',
+            ],
+            'velocity' => [
+                'required',
+                'int',
+                'min:0',
+                'max:100',
+            ],
+            'reaction' => [
+                'required',
+                'int',
+                'min:0',
+                'max:100',
+            ],
+            'genre' => [
+                'required',
+                'string',
+                'min:1',
+                'max:1',
+            ],
         ];
     }
 }

@@ -129,14 +129,17 @@ class Repository implements RepositoryInterface
      * destroys a model
      *
      * @param  mixed $id
-     * @return 
+     * @return ?bool
      */
-    public function destroy(mixed $id)
+    public function destroy(mixed $id): ?bool
     {
-        return $this->model
-            ->newQuery()
-            ->find($id)
-            ->delete();
+        if (!$id instanceof Model) {
+            return $this->model
+                ->newQuery()
+                ->find($id)
+                ->delete();
+        }
+        return $id->delete();
     }
 
     /**
@@ -177,5 +180,15 @@ class Repository implements RepositoryInterface
         }
         return $players->paginate($config['perPage'], $columns, 'page', $config['page'])
             ->withQueryString();
+    }
+    
+    /**
+     * truncate
+     *
+     * @return void
+     */
+    public function truncate(): void
+    {
+        $this->model::truncate();
     }
 }

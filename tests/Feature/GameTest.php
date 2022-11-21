@@ -4,19 +4,17 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class GameTest extends AbstractApiTest
+class GameTest extends PlayerTest
 {
     /**
-     * A basic feature test example.
+     * testGame
      *
      * @return void
      */
-    public function test_example()
+    public function testGame(): void
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $token = $this->testSingUp();
+        // $this->storeGame($token);
     }
 }

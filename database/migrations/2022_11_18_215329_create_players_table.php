@@ -16,11 +16,17 @@ return new class extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('last_name');
-            $table->integer('ability');
-            $table->integer('force');
-            $table->integer('velocity');
-            $table->integer('reaction');
+            $table->string('last_name')
+                ->nullable();
+            $table->enum('genre', ['m', 'f']);
+            $table->integer('ability')
+                ->nullable();
+            $table->integer('force')
+                ->nullable();
+            $table->integer('velocity')
+                ->nullable();
+            $table->integer('reaction')
+                ->nullable();
             $table->timestamps();
         });
     }

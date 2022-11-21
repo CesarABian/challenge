@@ -13,9 +13,9 @@ abstract class AbstractApiTest extends TestCase
     /**
      * sing up test section
      *
-     * @return void
+     * @return string
      */
-    protected function testSingUp(): void
+    protected function testSingUp(): string
     {
         $json = $this->json('POST', '/api/auth/register', [
             'name' => 'Sally',
@@ -24,8 +24,9 @@ abstract class AbstractApiTest extends TestCase
             'password_confirmation' => 'Test4Pass!',
         ]);
         $json->assertJson([
-                'status' => true,
+            'status' => true,
         ]);
+        return $json->json()['token'];
     }
     
     /**
@@ -40,7 +41,7 @@ abstract class AbstractApiTest extends TestCase
             'password' => 'Test4Pass!',
         ]);
         $json->assertJson([
-                'status' => true,
+            'status' => true,
         ]);
         return $json->json()['token'];
     }
@@ -56,7 +57,7 @@ abstract class AbstractApiTest extends TestCase
         $json = $this->withHeader('Authorization', 'Bearer ' . $token)
             ->json('POST', '/api/auth/logout');
         $json->assertJson([
-                'status' => true,
+            'status' => true,
         ]);
     }
 }

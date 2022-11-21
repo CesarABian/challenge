@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PlayerController;
+use App\Http\Controllers\Api\TournamentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +28,5 @@ Route::middleware('auth:sanctum')
     ->group(function () {
         Route::apiResource('player', PlayerController::class);
         Route::apiResource('tournament', TournamentController::class);
+        Route::post('/tournament/start', [TournamentController::class, 'start']);
 });

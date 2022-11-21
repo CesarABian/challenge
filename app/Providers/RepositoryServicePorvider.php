@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Repositories\Eloquent\GameRepository;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Eloquent\PlayerRepository;
+use App\Repositories\Eloquent\TournamentRepository;
+use App\Repositories\Interfaces\GameRepositoryInterface;
 use App\Repositories\Interfaces\PlayerRepositoryInterface;
+use App\Repositories\Interfaces\TournamentRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServicePorvider extends ServiceProvider

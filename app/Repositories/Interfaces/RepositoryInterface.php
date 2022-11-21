@@ -68,9 +68,9 @@ interface RepositoryInterface
      * destroys a model
      *
      * @param  mixed $id
-     * @return 
+     * @return ?bool
      */
-    public function destroy(mixed $id);
+    public function destroy(mixed $id): ?bool;
 
     /**
      * returns all models paginated and filtered
@@ -81,4 +81,11 @@ interface RepositoryInterface
      * @return LengthAwarePaginator
      */
     public function allPaginatedAndFiltered(array $config, array $columns, array $relations): LengthAwarePaginator;
+    
+    /**
+     * truncate
+     *
+     * @return void
+     */
+    public function truncate(): void;
 }

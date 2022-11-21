@@ -7,6 +7,8 @@ use App\Http\Controllers\AbstractController;
 use App\Http\Requests\Tournament\StoreTournamentRequest;
 use App\Http\Requests\Tournament\UpdateTournamentRequest;
 use App\Http\Resources\TournamentResource;
+use App\Repositories\Interfaces\GameRepositoryInterface;
+use App\Repositories\Interfaces\PlayerRepositoryInterface;
 use App\Repositories\Interfaces\TournamentRepositoryInterface;
 use App\Services\TournamentService;
 use Illuminate\Http\JsonResponse;
@@ -25,9 +27,12 @@ class TournamentController extends AbstractController
      * @param  TournamentRepositoryInterface $repository
      * @return void
      */
-    public function __construct(TournamentRepositoryInterface $repository)
-    {
-        $this->service = new TournamentService($repository);
+    public function __construct(
+        TournamentRepositoryInterface $repository,
+        GameRepositoryInterface $gameRepository,
+        PlayerRepositoryInterface $playerRepository,
+    ) {
+        $this->service = new TournamentService($repository, $gameRepository, $playerRepository);
     }
 
     /**
@@ -52,6 +57,20 @@ class TournamentController extends AbstractController
     public function store(StoreTournamentRequest $request): JsonResponse
     {
         $tournament = $this->service->store($request->validated());
+        return TournamentResource::make($tournament)
+            ->response()
+            ->setStatusCode(201);
+    }
+    
+    /**
+     * start
+     *
+     * @param  mixed $request
+     * @return JsonResponse
+     */
+    public function start(Request $request): JsonResponse
+    {
+        $tournament = $this->service->start($request->all());
         return TournamentResource::make($tournament)
             ->response()
             ->setStatusCode(201);
@@ -94,14 +113,14 @@ class TournamentController extends AbstractController
     public function destroy(Tournament $tournament): JsonResponse
     {
         if ($this->service->destroy($tournament)) {
-            $message = 'the requested resource cannot be deleted';
-            $status = false;
-            $code = 409;
+            $message = 'the requested resource has been deleted';
+            $status = true;
+            $code = 202;
             return $this->simpleJsonResponse($message, $status, $code);
         }
-        $message = 'the requested resource has been deleted';
-        $status = true;
-        $code = 204;
+        $message = 'the requested resource cannot be deleted';
+        $status = false;
+        $code = 409;
         return $this->simpleJsonResponse($message, $status, $code);
     }
 }

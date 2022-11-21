@@ -11,11 +11,7 @@ class Tournament extends Model
 
     protected $fillable = [
         'name',
-        'last_name',
-        'ability',
-        'force',
-        'velocity',
-        'reaction',
         'genre',
+        'winner_id',
     ];
 }
