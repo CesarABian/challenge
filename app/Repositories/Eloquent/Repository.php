@@ -189,6 +189,6 @@ class Repository implements RepositoryInterface
      */
     public function truncate(): void
     {
-        $this->model::truncate();
+        $this->model->query()->delete();
     }
 }

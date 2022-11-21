@@ -24,7 +24,60 @@ class UpdatePlayerRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            //
+            'name' => [
+                'string',
+                'max:255',
+                'sometimes',
+                'required',
+                'nullable',
+            ],
+            'last_name' => [
+                'string',
+                'max:255',
+                'sometimes',
+                'required',
+                'nullable',
+            ],
+            'ability' => [
+                'int',
+                'min:0',
+                'max:100',
+                'sometimes',
+                'required',
+                'nullable',
+            ],
+            'force' => [
+                'int',
+                'min:0',
+                'max:100',
+                'sometimes',
+                'required',
+                'nullable',
+            ],
+            'velocity' => [
+                'int',
+                'min:0',
+                'max:100',
+                'sometimes',
+                'required',
+                'nullable',
+            ],
+            'reaction' => [
+                'int',
+                'min:0',
+                'max:100',
+                'sometimes',
+                'required',
+                'nullable',
+            ],
+            'genre' => [
+                'string',
+                'min:1',
+                'max:1',
+                'sometimes',
+                'required',
+                'nullable',
+            ],
         ];
     }
 }

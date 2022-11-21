@@ -63,9 +63,9 @@ class TournamentController extends AbstractController
     }
     
     /**
-     * start
+     * start tournament
      *
-     * @param  mixed $request
+     * @param  Request $request
      * @return JsonResponse
      */
     public function start(Request $request): JsonResponse

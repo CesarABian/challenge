@@ -3,12 +3,18 @@
 namespace App\Services;
 
 use App\Models\Player;
+use App\Models\Tournament;
 use App\Repositories\Interfaces\GameRepositoryInterface;
 use App\Repositories\Interfaces\PlayerRepositoryInterface;
 use App\Repositories\Interfaces\TournamentRepositoryInterface;
 
 class TournamentService extends Service
 {
+    /**
+     * @var float
+     */
+    protected float $lucky = 0.9;
+
     /**
      * @var TournamentRepositoryInterface
      */
@@ -17,12 +23,12 @@ class TournamentService extends Service
     /**
      * @var GameRepositoryInterface
      */
-    protected $gameRepository;
+    protected GameRepositoryInterface $gameRepository;
 
     /**
      * @var PlayerRepositoryInterface
      */
-    protected $playerRepository;
+    protected PlayerRepositoryInterface $playerRepository;
 
     /**
      * __construct
@@ -43,12 +49,12 @@ class TournamentService extends Service
     }
     
     /**
-     * createPlayers
+     * createShufflePlayers
      *
      * @param  array $data
      * @return array
      */
-    protected function createPlayers(array $data): array
+    protected function createShufflePlayers(array $data): array
     {
         if(count($data) % 2 != 0){
             throw new \Exception('the contain data should be even'); 
@@ -65,10 +71,7 @@ class TournamentService extends Service
             $players []= $this->playerRepository->store($player);
             $genre = $player['genre'];
         }
-        shuffle($players);
-        $length = intval(count($players)/2);
-        $playersA = array_chunk($players, $length);
-        $playersB = array_chunk($players, $length);
+        [$playersA, $playersB] = $this->sortPlayers($players);
         return [$playersA, $playersB, $genre];
     }
     
@@ -91,6 +94,38 @@ class TournamentService extends Service
     }
     
     /**
+     * play
+     *
+     * @param  Player $playerA
+     * @param  Player $playerB
+     * @param  array $toCompare
+     * @return Player
+     */
+    protected function play(Player $playerA, Player $playerB, array $toCompare): Player
+    {
+        $points = ['playerA' => 0.0, 'playerB' => 0.0];
+        foreach ($toCompare as $property) {
+            if ($playerA->$property > $playerB->$property) {
+                $points['playerA'] = $points['playerA'] + $playerA->$property - $playerB->$property;
+            } elseif ($playerA->$property < $playerB->$property) {
+                $points['playerB'] = $points['playerB'] + $playerB->$property - $playerA->$property;
+            }
+        }
+        $keys = array_keys($points);
+        shuffle($keys);
+        $points[$keys[0]] = $points[$keys[0]] * $this->lucky;
+        if ($points['playerA'] > $points['playerB']) {
+            return $playerA;
+        } elseif ($points['playerA'] < $points['playerB']) {
+            return $playerA;
+        } else {
+            $players = [$playerA, $playerB];
+            shuffle($players);
+            return $players[0];
+        }
+    }
+    
+    /**
      * playMale
      *
      * @param  Player $playerA
@@ -99,10 +134,8 @@ class TournamentService extends Service
      */
     protected function playMale(Player $playerA, Player $playerB): Player
     {
-// ● habilidad y suerte ganador.
-// ● fuerza y velocidad ganador.
         $toCompare = ['ability', 'force', 'velocity'];
-        return new Player;
+        return $this->play($playerA, $playerB, $toCompare);
     }
     
     /**
@@ -114,9 +147,8 @@ class TournamentService extends Service
      */
     protected function playFemale(Player $playerA, Player $playerB): Player
     {
-// ● habilidad y suerte ganador.
-// ● reacción ganador.
-        return new Player;
+    $toCompare = ['ability', 'reaction'];
+    return $this->play($playerA, $playerB, $toCompare);
     }
     
     /**
@@ -133,30 +165,55 @@ class TournamentService extends Service
          * @var mixed $key
          * @var Player $playerA
          */
+        $players = [];
         foreach ($playersA as $key => $playerA) {
-            $currentWinner = $this->playBetween($playerA, $playersB[$key], $genre);
+            $winner = $this->playBetween($playerA, $playersB[$key], $genre);
+            $players []= $winner;
+            $this->gameRepository->store([
+                'player_a_id' => $playerA->id,
+                'player_b_id' => $playersB[$key]->id,
+                'winner_id' => $winner->id,
+            ]);
         }
-        return $winner;
+        if (count($players) != 1) {
+            [$playersA, $playersB] = $this->sortPlayers($players);
+            return $this->startGames($playersA, $playersB, $genre);
+        }
+        return $players[0];
+    }
+    
+    /**
+     * sortPlayers
+     *
+     * @param  array $players
+     * @return array
+     */
+    protected function sortPlayers(array $players): array
+    {
+        shuffle($players);
+        $length = intval(count($players)/2);
+        $playersA = array_slice($players, 0, $length);
+        $playersB = array_slice($players, $length, $length);
+        return [$playersA, $playersB];
     }
     
     /**
      * start
      *
      * @param  array $data
-     * @return Player
+     * @return Tournament
      */
-    public function start(array $data): Player
+    public function start(array $data): Tournament
     {
         $this->repository->truncate();
         $this->gameRepository->truncate();
         $this->playerRepository->truncate();
-        [$playersA, $playersB, $genre] = $this->createPlayers($data['data']);
+        [$playersA, $playersB, $genre] = $this->createShufflePlayers($data['data']);
         $winner = $this->startGames($playersA, $playersB, $genre);
-        $this->store([
+        return $this->store([
             'name' => 'default',
             'genre' => $genre,
             'winner_id' => $winner->id,
         ]);
-        return $winner;
     }
 }

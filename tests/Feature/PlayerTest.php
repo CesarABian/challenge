@@ -2,23 +2,16 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class PlayerTest extends AbstractApiTest
 {    
+    use WithFaker;
+
     /**
-     * @var array $storeData
+     * @var string $genre
      */
-    protected array $storeData = [
-        "name" => "Sally",
-        "last_name" => "Test",
-        "ability" => "99",
-        "force" => "99",
-        "velocity" => "99",
-        "reaction" => "99",
-        "genre" => "f",
-    ];
+    protected string $genre = 'f';
 
     /**
      * @var array $updateData
@@ -26,6 +19,24 @@ class PlayerTest extends AbstractApiTest
     protected array $updateData = [
         "velocity" => "88",
     ];
+
+    /**
+     * fakePlayer
+     *
+     * @return array
+     */
+    protected function fakePlayer(): array
+    {
+        return [
+            "name" => $this->faker->firstName,
+            "last_name" => $this->faker->lastName,
+            "ability" => $this->faker->numberBetween(0, 100),
+            "force" => $this->faker->numberBetween(0, 100),
+            "velocity" => $this->faker->numberBetween(0, 100),
+            "reaction" => $this->faker->numberBetween(0, 100),
+            "genre"  => $this->genre,
+        ];
+    }
 
     /**
      * storePlayer
@@ -49,16 +60,15 @@ class PlayerTest extends AbstractApiTest
      *
      * @param  int $id
      * @param  string $token
-     * @return int
+     * @return void
      */
-    protected function updatePlayer(int $id, string $token): int
+    protected function updatePlayer(int $id, string $token): void
     {
         $json = $this->withHeader('Authorization', 'Bearer ' . $token)
             ->json('PUT', "/api/player/$id", $this->updateData);
         $json->assertJson([
             'data' => [],
         ]);
-        return $json->json()['data']['id'];
     }
 
     /**
@@ -85,7 +95,7 @@ class PlayerTest extends AbstractApiTest
     public function testPlayer(): void
     {
         $token = $this->testSingUp();
-        $id = $this->storePlayer($token, $this->storeData);
+        $id = $this->storePlayer($token, $this->fakePlayer());
         $this->updatePlayer($id, $token);
         $this->deletePlayer($id, $token);
     }
